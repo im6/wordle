@@ -1,0 +1,19 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>RxJS_test1</title>
+        <meta charset="UTF-8">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.4.3/Rx.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.4.3/Rx.min.js"></script>
+    </head>
+    <body>
+      <a href="https://www.learnrxjs.io/operators/combination/combineall.html">link</a>
+      <script>
+        const source = Rx.Observable.interval(1000).take(2);
+        const example = source.map(val => Rx.Observable.interval(1000).map(i => `Result (${val}): ${i}`).take(5));
+        const combined = example.combineAll();
+        const subscribe = combined.subscribe(val => console.log(val));
+      </script>
+    </body>
+</html>
