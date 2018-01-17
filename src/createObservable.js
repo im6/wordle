@@ -12,7 +12,7 @@ var oneObservable = Rx.Observable.create(function subscribe(observer) {
 });
 
 
-// Subscribing to Observables, analogous to function.call, using func as arguments
+// Subscribing to Observables, analogous to "call" to function, using func as arguments
 var subscription1 = oneObservable.subscribe(x => console.log(x));
 var subscription2 = observable.subscribe(
   x => console.log('Observer got a next value: ' + x),
