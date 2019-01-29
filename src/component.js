@@ -9,7 +9,11 @@ var subscription = observable.subscribe(x => console.log(x));
 subscription.unsubscribe();
 
 
-//A Subject is like an Observable, but can multicast to many Observers.
+// A Subject is like an Observable, but can multicast to many Observers.
+// Multicasting basically means that one Observable execution is shared among multiple subscribers.
+// Subjects are used for multicasting Observables
+// https://medium.com/@luukgruijs/understanding-rxjs-subjects-339428a1815b
+// https://medium.com/@luukgruijs/understanding-rxjs-behaviorsubject-replaysubject-and-asyncsubject-8cc061f1cfc0
 var subject = new Rx.Subject();
 
 subject.subscribe({
