@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/zj1926/rxjs_practice#readme",
   "devDependencies": {
-    "rxjs": "^5.0.3"
+    "rxjs": "^6.4.0"
   }
 }
