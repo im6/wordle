@@ -1,4 +1,4 @@
-# rxjs playground
+# rxjs playground(quickstart)
 
 [ref1](https://medium.com/@luukgruijs/understanding-rxjs-subjects-339428a1815b)
 [ref2](https://medium.com/@luukgruijs/understanding-rxjs-behaviorsubject-replaysubject-and-asyncsubject-8cc061f1cfc0)
