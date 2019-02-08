@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "app=snake webpack-dev-server --progress --open --profile --colors --config webpack.js"
+    "start": "app=snake webpack-dev-server --progress --colors --config webpack.js"
   },
   "repository": {
     "type": "git",

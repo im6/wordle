@@ -1,13 +1,14 @@
 "use strict";
 const webpack = require('webpack');
 const path = require('path');
+const app = process.env.app;
 
 module.exports = {
   watch: true,
   mode: "development",
   devtool: 'source-map',
   entry: [
-    `./src/${process.env.app}/main.js`,
+    `./src/${app}/main.js`,
     'webpack/hot/only-dev-server',
     'webpack-dev-server/client?http://localhost:3000',
   ],
@@ -36,7 +37,7 @@ module.exports = {
   },
   output: {
     publicPath: '/',
-    path: path.join(__dirname, `./public/${process.env.app}`),
+    path: path.join(__dirname, `./public/${app}`),
     filename: 'bundle.js'
   },
   plugins: [
@@ -49,11 +50,12 @@ module.exports = {
     }),
   ],
   devServer: {
-    contentBase: `./public/${process.env.app}`,  // set "public" path, relative to root
+    contentBase: `./public/${app}`,  // set "public" path, relative to root
     noInfo: true,
     hot: true,
     inline: true,
     port: "3000",
     host: "localhost",
+    open: 'Google Chrome',
   }
 };
