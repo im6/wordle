@@ -18,6 +18,7 @@ import {
   share,
   switchMap,
   startWith,
+  takeWhile,
   combineLatest,
   withLatestFrom,
   distinctUntilChanged,
@@ -38,49 +39,53 @@ import {
 const canvas = document.getElementById('appCan');
 const ctx = canvas.getContext('2d');
 
-const direction$ = fromEvent(document, 'keydown').pipe(
-  map(({ keyCode }) => DIRECTIONS[keyCode]),
-  startWith(INIT_DIRECTION),
-  filter(d => !!d), // ignore other keydown
-  scan(nextDirection), //determin direction change condition
-  distinctUntilChanged(), // change on curve
-);
 
-const len$ = new BehaviorSubject(SNAKE_INIT_LENGTH);
-const snakeLen$ = len$.pipe(
-  scan((prev, next) => {
+const createGame = (animObs) => {
+  debugger;
+  const direction$ = fromEvent(document, 'keydown').pipe(
+    map(({ keyCode }) => DIRECTIONS[keyCode]),
+    startWith(INIT_DIRECTION),
+    filter(d => !!d), // ignore other keydown
+    scan(nextDirection), //determin direction change condition
+    distinctUntilChanged(), // change on curve
+  );
+  
+  const len$ = new BehaviorSubject(SNAKE_INIT_LENGTH);
+  const snakeLen$ = len$.pipe(
+    scan((prev, next) => {
+      debugger;
+      return prev + next;
+    }),
+    share()
+  );
+  const score$ = snakeLen$.pipe(
+    startWith(0),
+    scan((prev, next) => prev + 1),
+  );
+  
+  const ticks$ = interval(1000);
+  const snake$ = ticks$.pipe(
+    withLatestFrom(direction$, snakeLen$, (_, direction, snakeLength) => [direction, snakeLength]), // mapper is optional but better to have, filter out unused.
+    scan(move, initSnake()),
+    share());
+  
+  const apple$ = snake$.pipe(
+    scan(eat, initApple()),
+    distinctUntilChanged(),
+    share(),
+  );
+  
+  const scene$ = combineLatest(snake$, apple$, score$, (snake, apple, score) => ({snake, apple, score}));
+
+  return animObs.pipe(withLatestFrom(scene$, (a,b) => {
     debugger;
-    return prev + next;
-  }),
-  share()
-);
-const score$ = snakeLen$.pipe(
-  startWith(0),
-  scan((prev, next) => prev + 1),
-);
-
-const ticks$ = interval(1000);
-const snake$ = ticks$.pipe(
-  withLatestFrom(direction$, snakeLen$, (_, direction, snakeLength) => [direction, snakeLength]), // mapper is optional but better to have, filter out unused.
-  scan(move, initSnake()),
-  share());
-
-const apple$ = snake$.pipe(
-  scan(eat, initApple()),
-  distinctUntilChanged(),
-  share(),
-);
-
-const scene$ = combineLatest(snake$, apple$, score$, (snake, apple, score) => ({snake, apple, score}));
-
+    return b;
+  }))
+}
 const game$ = of('start game').pipe(
-  map(a => {
-    return interval(1000 / 2, animationFrameScheduler);
-  }),
-  switchMap((obs, n) => {
-    debugger;
-    return obs;
-  })
+  map(_ => interval(1000/10, animationFrameScheduler)),
+  switchMap(createGame),
+  takeWhile()
 );
 
 
