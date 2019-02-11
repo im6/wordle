@@ -23,3 +23,7 @@ export const getRandomPosition = () => {
 
   return position;
 }
+
+export const renderScene = (ctx, scene) => {
+  debugger;
+}

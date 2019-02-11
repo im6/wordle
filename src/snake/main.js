@@ -7,6 +7,7 @@ import {
   of,
   fromEvent,
   interval,
+  combineLatest,
   BehaviorSubject, 
   animationFrameScheduler,
 } from 'rxjs';
@@ -19,7 +20,6 @@ import {
   switchMap,
   startWith,
   takeWhile,
-  combineLatest,
   withLatestFrom,
   distinctUntilChanged,
  } from 'rxjs/operators';
@@ -35,13 +35,14 @@ import {
   initApple,
   nextDirection,
 } from './snake';
+import {
+  renderScene,
+} from './canvas';
 
 const canvas = document.getElementById('appCan');
 const ctx = canvas.getContext('2d');
 
-
 const createGame = (animObs) => {
-  debugger;
   const direction$ = fromEvent(document, 'keydown').pipe(
     map(({ keyCode }) => DIRECTIONS[keyCode]),
     startWith(INIT_DIRECTION),
@@ -75,21 +76,24 @@ const createGame = (animObs) => {
     share(),
   );
   
-  const scene$ = combineLatest(snake$, apple$, score$, (snake, apple, score) => ({snake, apple, score}));
-
-  return animObs.pipe(withLatestFrom(scene$, (a,b) => {
-    debugger;
-    return b;
-  }))
+  const scene$ = combineLatest(snake$, apple$, score$, (snake, apple, score) => ({ snake, apple, score, }));
+  return animObs.pipe(withLatestFrom(scene$, (a, b) => b))
 }
-const game$ = of('start game').pipe(
-  map(_ => interval(1000/10, animationFrameScheduler)),
+const game$ = of('Start Game').pipe(
+  map(_ => interval(1000 / 10, animationFrameScheduler)),
   switchMap(createGame),
-  takeWhile()
-);
+  takeWhile((a,b,c) => {
+    return true;
+  })
+); 
 
 
 
-game$.subscribe(c => {
-  //console.log('snake: ', c);
+game$.subscribe({
+  next: scene => {
+    renderScene(ctx, scene);
+  },
+  complete: () => {
+    console.log('game complete.');
+  }
 });
