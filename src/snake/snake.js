@@ -1,10 +1,7 @@
 import {
   SNAKE_INIT_LENGTH,
  } from './constant';
-import { 
-   checkCollision,
-   getRandomPosition,
-} from './canvas';
+import SnakeCanvas from './SnakeCanvas';
  
 export const initSnake = () => {
   let snake = [];
@@ -16,7 +13,7 @@ export const initSnake = () => {
 }
 
 export const initApple = () => {
-  return getRandomPosition();
+  return SnakeCanvas.getRandomPosition();
 }
 
 export const move = (snake, [direction, len]) => {
@@ -35,8 +32,8 @@ export const move = (snake, [direction, len]) => {
 
 export const eat = (apple, snake) => {
   const head = snake[0];
-  if(snake.some(v => checkCollision(apple, head))){
-    return getRandomPosition();
+  if(snake.some(v => SnakeCanvas.checkCollision(apple, head))){
+    return SnakeCanvas.getRandomPosition();
   } else {
     return apple;
   }

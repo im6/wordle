@@ -35,12 +35,9 @@ import {
   initApple,
   nextDirection,
 } from './snake';
-import {
-  renderScene,
-} from './canvas';
+import SnakeCanvas from './SnakeCanvas';
 
-const canvas = document.getElementById('appCan');
-const ctx = canvas.getContext('2d');
+const cnv = new SnakeCanvas(document.getElementById('appCan'));
 
 const createGame = (animObs) => {
   const direction$ = fromEvent(document, 'keydown').pipe(
@@ -87,11 +84,9 @@ const game$ = of('Start Game').pipe(
   })
 ); 
 
-
-
 game$.subscribe({
   next: scene => {
-    renderScene(ctx, scene);
+    cnv.renderScene(scene);
   },
   complete: () => {
     console.log('game complete.');
