@@ -11,13 +11,15 @@ const canvas_width = CANVAS_WIDTH * BOX_SIZE;
 const canvas_height = CANVAS_HEIGHT * BOX_SIZE;
 
 class SnakeCanvas {
-  constructor(canvas){
+  constructor(canvas, scoreElem){
     const ctx = canvas.getContext('2d');
     canvas.width = canvas_width;
     canvas.height = canvas_height;
     ctx.fillStyle = '#f5f5f5';
     ctx.fillRect(0, 0, canvas_width, canvas_height);
+
     this.ctx = ctx;
+    this.scoreElem = scoreElem;
   }
 
   static getSnakeBoxColor(idx) {
@@ -50,7 +52,9 @@ class SnakeCanvas {
     snake.forEach((v, k) => {
       this.drawBox(v, SnakeCanvas.getSnakeBoxColor(k));
     });
+
     this.drawBox(apple, FOOD_COLOR);
+    this.scoreElem.innerText = score;
   }
 }
 

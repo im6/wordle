@@ -32,12 +32,11 @@ import {
   eat,
   move,
   initSnake,
-  initApple,
   nextDirection,
 } from './snake';
 import SnakeCanvas from './SnakeCanvas';
 
-const cnv = new SnakeCanvas(document.getElementById('appCan'));
+const viewElem = new SnakeCanvas(document.getElementById('appCan'), document.getElementById('scoreText'));
 
 const createGame = (animObs) => {
   const direction$ = fromEvent(document, 'keydown').pipe(
@@ -61,14 +60,14 @@ const createGame = (animObs) => {
     scan((prev, next) => prev + 1),
   );
   
-  const ticks$ = interval(1000);
+  const ticks$ = interval(200);
   const snake$ = ticks$.pipe(
     withLatestFrom(direction$, snakeLen$, (_, direction, snakeLength) => [direction, snakeLength]), // mapper is optional but better to have, filter out unused.
     scan(move, initSnake()),
     share());
   
   const apple$ = snake$.pipe(
-    scan(eat, initApple()),
+    scan(eat, SnakeCanvas.getRandomPosition()),
     distinctUntilChanged(),
     share(),
   );
@@ -86,7 +85,7 @@ const game$ = of('Start Game').pipe(
 
 game$.subscribe({
   next: scene => {
-    cnv.renderScene(scene);
+    viewElem.renderScene(scene);
   },
   complete: () => {
     console.log('game complete.');
