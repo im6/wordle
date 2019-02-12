@@ -27,6 +27,7 @@ import {
   DIRECTIONS, 
   INIT_DIRECTION,
   SNAKE_INIT_LENGTH,
+  SNAKEMOVE,
  } from './constant';
 import { 
   eat,
@@ -60,7 +61,7 @@ const createGame = (animObs) => {
     scan((prev, next) => prev + 1),
   );
   
-  const ticks$ = interval(200);
+  const ticks$ = interval(SNAKEMOVE);
   const snake$ = ticks$.pipe(
     withLatestFrom(direction$, snakeLen$, (_, direction, snakeLength) => [direction, snakeLength]), // mapper is optional but better to have, filter out unused.
     scan(move, initSnake()),

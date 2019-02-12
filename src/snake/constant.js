@@ -11,6 +11,7 @@ export const SNAKE_HEAD_COLOR = '#3f72af';
 export const SNAKE_BODY_COLOR = '#c7d0d5';
 
 export const FOOD_COLOR = '#ff7148';
+export const SNAKEMOVE = 500;
 
 export const DIRECTIONS = {
   "65": { x: -1, y: 0 }, // a

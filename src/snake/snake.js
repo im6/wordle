@@ -1,5 +1,7 @@
 import {
   SNAKE_INIT_LENGTH,
+  CANVAS_WIDTH,
+  CANVAS_HEIGHT,
  } from './constant';
 import SnakeCanvas from './SnakeCanvas';
  
@@ -13,11 +15,24 @@ export const initSnake = () => {
 }
 
 export const move = (snake, [direction, len]) => {
-  const nextHead = {
-    x: snake[0].x + direction.x,
-    y: snake[0].y + direction.y,
-  };
+  let x = snake[0].x + direction.x;
+  let y = snake[0].y + direction.y;
 
+  if(x < 0){
+    x += CANVAS_WIDTH;
+  } else if(x >= CANVAS_WIDTH) {
+    x -= CANVAS_WIDTH;
+  }
+  if(y < 0){
+    y += CANVAS_HEIGHT;
+  } else if(y >= CANVAS_HEIGHT) {
+    y -= CANVAS_HEIGHT;
+  }
+
+  const nextHead = {
+    x, y
+  };
+  
   if(snake.length > len){
     snake.pop()
   }
