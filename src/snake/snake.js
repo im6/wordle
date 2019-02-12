@@ -32,7 +32,7 @@ export const move = (snake, [direction, len]) => {
   const nextHead = {
     x, y
   };
-  
+
   if(snake.length > len){
     snake.pop()
   }
@@ -52,4 +52,14 @@ export const eat = (apple, snake) => {
 
 export const nextDirection = (prev, next)=> {
   return (prev.x === next.x * -1 || prev.y === next.y * -1) ? prev: next;
+}
+
+export const willHitSelf = ({ snake }) => {
+  const head = snake[0];
+  for(let i = 4; i < snake.length; i++){
+    if(SnakeCanvas.checkCollision(snake[i], head)){
+      return false;
+    }
+  }
+  return true;
 }

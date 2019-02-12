@@ -13,7 +13,6 @@ import {
 } from 'rxjs';
 import { 
   map, 
-  take,
   scan,
   filter, 
   share,
@@ -27,12 +26,13 @@ import {
   DIRECTIONS, 
   INIT_DIRECTION,
   SNAKE_INIT_LENGTH,
-  SNAKEMOVE,
+  GAME_INTERVAL,
  } from './constant';
 import { 
   eat,
   move,
   initSnake,
+  willHitSelf,
   nextDirection,
 } from './snake';
 import SnakeCanvas from './SnakeCanvas';
@@ -61,7 +61,7 @@ const createGame = (animObs) => {
     scan((prev, next) => prev + 1),
   );
   
-  const ticks$ = interval(SNAKEMOVE);
+  const ticks$ = interval(GAME_INTERVAL);
   const snake$ = ticks$.pipe(
     withLatestFrom(direction$, snakeLen$, (_, direction, snakeLength) => [direction, snakeLength]), // mapper is optional but better to have, filter out unused.
     scan(move, initSnake()),
@@ -76,13 +76,12 @@ const createGame = (animObs) => {
   const scene$ = combineLatest(snake$, apple$, score$, (snake, apple, score) => ({ snake, apple, score, }));
   return animObs.pipe(withLatestFrom(scene$, (a, b) => b))
 }
+
 const game$ = of('Start Game').pipe(
   map(_ => interval(1000 / 10, animationFrameScheduler)),
   switchMap(createGame),
-  takeWhile((a,b,c) => {
-    return true;
-  })
-); 
+  takeWhile(willHitSelf),
+);
 
 game$.subscribe({
   next: scene => {
