@@ -12,7 +12,9 @@ import {
   animationFrameScheduler,
 } from 'rxjs';
 import { 
-  map, 
+  map,
+  tap,
+  skip,
   scan,
   filter, 
   share,
@@ -50,11 +52,7 @@ const createGame = (animObs) => {
   
   const len$ = new BehaviorSubject(SNAKE_INIT_LENGTH);
   const snakeLen$ = len$.pipe(
-    scan((prev, next) => {
-      debugger;
-      return prev + next;
-    }),
-    share()
+    scan((prev, next) => prev + next), // do this because $appleEaten release 1 every eating time
   );
   const score$ = snakeLen$.pipe(
     startWith(0),
@@ -72,15 +70,21 @@ const createGame = (animObs) => {
     distinctUntilChanged(),
     share(),
   );
+
+  const appleEatenSubscription = apple$.pipe(
+    skip(1),
+    tap(() => len$.next(1))
+  ).subscribe();
   
   const scene$ = combineLatest(snake$, apple$, score$, (snake, apple, score) => ({ snake, apple, score, }));
+  
   return animObs.pipe(withLatestFrom(scene$, (a, b) => b))
 }
 
 const game$ = of('Start Game').pipe(
   map(_ => interval(1000 / 10, animationFrameScheduler)),
-  switchMap(createGame),
-  takeWhile(willHitSelf),
+  switchMap(createGame), // from 'Start Game' to game scene observable
+  takeWhile(() => true || willHitSelf),
 );
 
 game$.subscribe({
