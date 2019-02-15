@@ -35,11 +35,12 @@ import {
   move,
   initSnake,
   willHitSelf,
-  nextDirection,
 } from './snake';
 import SnakeCanvas from './SnakeCanvas';
+import { debug } from 'util';
 
-const viewElem = new SnakeCanvas(document.getElementById('appCan'), document.getElementById('scoreText'));
+const textElem = document.getElementById('scoreText');
+const viewElem = new SnakeCanvas(document.getElementById('appCan'), textElem);
 
 const createGame = (animObs) => {
   const direction$ = fromEvent(document, 'keydown').pipe(
@@ -90,7 +91,8 @@ game$.subscribe({
   next: scene => {
     viewElem.renderScene(scene);
   },
-  complete: () => {
+  complete: (a) => {
     console.log('game complete.');
+    textElem.innerText = 'game over';
   }
 });
