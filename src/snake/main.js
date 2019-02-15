@@ -46,7 +46,6 @@ const createGame = (animObs) => {
     map(({ keyCode }) => DIRECTIONS[keyCode]),
     startWith(INIT_DIRECTION),
     filter(d => !!d), // ignore other keydown
-    scan(nextDirection), //determin direction change condition
     distinctUntilChanged(), // change on curve
   );
   
@@ -84,7 +83,7 @@ const createGame = (animObs) => {
 const game$ = of('Start Game').pipe(
   map(_ => interval(1000 / 10, animationFrameScheduler)),
   switchMap(createGame), // from 'Start Game' to game scene observable
-  takeWhile(() => true || willHitSelf),
+  takeWhile(willHitSelf),
 );
 
 game$.subscribe({

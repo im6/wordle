@@ -32,7 +32,7 @@ class SnakeCanvas {
     return a.x === b.x && a.y === b.y;
   }
   static isEmptyCell(point, snake) {
-    return !snake.some(v => this.checkCollision(v, point));
+    return !snake.body.some(v => this.checkCollision(v, point));
   }
   static getRandomPosition() {
     const position = {
@@ -49,7 +49,7 @@ class SnakeCanvas {
 
   renderScene({ snake, apple, score}) {
     this.ctx.clearRect(0, 0, canvas_width, canvas_height);
-    snake.forEach((v, k) => {
+    snake.body.forEach((v, k) => {
       this.drawBox(v, SnakeCanvas.getSnakeBoxColor(k));
     });
 
