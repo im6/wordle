@@ -37,7 +37,6 @@ import {
   willHitSelf,
 } from './snake';
 import SnakeCanvas from './SnakeCanvas';
-import { debug } from 'util';
 
 const textElem = document.getElementById('scoreText');
 const viewElem = new SnakeCanvas(document.getElementById('appCan'), textElem);
@@ -78,7 +77,7 @@ const createGame = (animObs) => {
   
   const scene$ = combineLatest(snake$, apple$, score$, (snake, apple, score) => ({ snake, apple, score, }));
   
-  return animObs.pipe(withLatestFrom(scene$, (a, b) => b))
+  return animObs.pipe(withLatestFrom(scene$, (_, b) => b))
 }
 
 const game$ = of('Start Game').pipe(
