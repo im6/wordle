@@ -13,7 +13,7 @@ import {
 } from 'rxjs';
 import { 
   map,
-  tap,
+  tap, // do is deprecated
   skip,
   scan,
   filter, 
@@ -51,7 +51,7 @@ const direction$ = fromEvent(document, 'keydown').pipe(
   distinctUntilChanged(), // change on curve
 );
 
-const len$ = new BehaviorSubject(0);
+const len$ = new BehaviorSubject(0); // shared by snakeLen and score
 const snakeLen$ = len$.pipe(
   startWith(SNAKE_INIT_LENGTH),
   scan((prev, next) => prev + next), // do this because $appleEaten release 1 every eating time
@@ -62,25 +62,28 @@ const score$ = len$.pipe(
 
 const ticks$ = interval(GAME_INTERVAL);
 const snake$ = ticks$.pipe(
-  withLatestFrom(direction$, snakeLen$, (_, direction, snakeLength) => [direction, snakeLength]), // mapper is optional but better to have, filter out unused.
+  withLatestFrom(direction$, snakeLen$, 
+    (_, direction, snakeLength) => [direction, snakeLength]
+  ),
   scan(move, initSnake()),
-  share(),
+  share(), // shared by eaten(apple) and scene
 );
 
 const apple$ = snake$.pipe(
-  scan(eat, SnakeCanvas.getRandomPosition()),
+  //scan(eat, SnakeCanvas.getRandomPosition()),
+  scan(eat, { x:6, y:0 }),
   distinctUntilChanged(),
   share(), // need to be shared by appleEat and scene
 );
 
 const appleEatenSubscription = apple$.pipe(
   skip(1),
-  tap(() => len$.next(1))
+  tap(() => len$.next(1)) // side effect actions
 ).subscribe();
 
 const scene$ = combineLatest(snake$, apple$, score$, (snake, apple, score) => ({ snake, apple, score,}));
 const game$ = of('Start Game').pipe(
-  map(_ => interval(1000 / 10, animationFrameScheduler)),
+  map(_ => interval(GAME_INTERVAL / 2), animationFrameScheduler),
   switchMap(anim => anim.pipe(
     withLatestFrom(scene$, (_, scene) => scene),
   )), // from 'Start Game' to game scene observable
@@ -92,15 +95,12 @@ game$.subscribe({
     viewElem.renderScene(scene);
   },
   complete: (a) => {
-    console.log('game complete.');
-    textElem.innerText = 'game over';
+    textElem.innerText = 'Game Over';
   }
 });
 
 startBtn$.subscribe({
   next: e =>{
-    len$.next(1);
-    
     const newGame = {
       apple: SnakeCanvas.getRandomPosition(),
       score: 1,
