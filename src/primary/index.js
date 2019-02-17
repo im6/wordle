@@ -1,1 +1,1 @@
-import './hot_cold_observable'
+import './observable'
