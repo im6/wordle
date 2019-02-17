@@ -51,26 +51,26 @@ const direction$ = fromEvent(document, 'keydown').pipe(
   distinctUntilChanged(), // change on curve
 );
 
-const len$ = new BehaviorSubject(SNAKE_INIT_LENGTH);
+const len$ = new BehaviorSubject(0);
 const snakeLen$ = len$.pipe(
+  startWith(SNAKE_INIT_LENGTH),
   scan((prev, next) => prev + next), // do this because $appleEaten release 1 every eating time
 );
-const score$ = snakeLen$.pipe(
-  startWith(0),
-  scan((prev, next) => prev + 1),
+const score$ = len$.pipe(
+  scan((prev, next) => prev + next),
 );
 
 const ticks$ = interval(GAME_INTERVAL);
 const snake$ = ticks$.pipe(
-    withLatestFrom(direction$, snakeLen$, (_, direction, snakeLength) => [direction, snakeLength]), // mapper is optional but better to have, filter out unused.
-    scan(move, initSnake()),
-    share(),
-  );
+  withLatestFrom(direction$, snakeLen$, (_, direction, snakeLength) => [direction, snakeLength]), // mapper is optional but better to have, filter out unused.
+  scan(move, initSnake()),
+  share(),
+);
 
 const apple$ = snake$.pipe(
   scan(eat, SnakeCanvas.getRandomPosition()),
   distinctUntilChanged(),
-  share(),
+  share(), // need to be shared by appleEat and scene
 );
 
 const appleEatenSubscription = apple$.pipe(
