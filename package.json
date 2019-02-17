@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "app=primary webpack-dev-server --progress --color --config webpack.js"
+    "start": "app=stopwatch webpack-dev-server --progress --color --config webpack.js"
   },
   "repository": {
     "type": "git",
