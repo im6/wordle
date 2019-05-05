@@ -4,29 +4,26 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "app=stopwatch webpack-dev-server --progress --color --config webpack.js"
+    "start": "app=snake webpack-dev-server --progress --color --config webpack.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zj1926/rxjs_practice.git"
-  },
-  "author": "",
+  "repository": "git+https://github.com/zj1926/rxjs_practice.git",
+  "author": "im6 <ee2win@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/zj1926/rxjs_practice/issues"
   },
   "homepage": "https://github.com/zj1926/rxjs_practice#readme",
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.3.1",
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
     "babel-loader": "^8.0.5",
-    "css-loader": "^2.1.0",
-    "node-sass": "^4.11.0",
-    "rxjs": "^6.4.0",
+    "css-loader": "^2.1.1",
+    "node-sass": "^4.12.0",
+    "rxjs": "^6.5.1",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
-    "webpack": "^4.29.2",
-    "webpack-cli": "^3.2.3",
-    "webpack-dev-server": "^3.1.14"
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.3.1"
   }
 }
