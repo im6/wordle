@@ -1,4 +1,3 @@
-"use strict";
 const webpack = require('webpack');
 const path = require('path');
 const app = process.env.app;
@@ -7,11 +6,7 @@ module.exports = {
   watch: true,
   mode: "development",
   devtool: 'source-map',
-  entry: [
-    `./src/${app}/index.js`,
-    'webpack/hot/only-dev-server',
-    'webpack-dev-server/client?http://localhost:3000',
-  ],
+  entry: `./src/${app}/index.js`,
   module:{
     rules: [
       {
@@ -37,17 +32,12 @@ module.exports = {
   },
   output: {
     publicPath: '/',
-    path: path.join(__dirname, `./public/${app}`),
+    path: path.join(__dirname, `../public/${app}`),
     filename: 'bundle.js'
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.DefinePlugin({
-      "process.env": {
-        NODE_ENV: JSON.stringify("development")
-      }
-    }),
   ],
   devServer: {
     contentBase: `./public/${app}`,  // set "public" path, relative to root
