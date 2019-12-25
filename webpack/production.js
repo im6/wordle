@@ -1,6 +1,6 @@
 const path = require('path');
-
-const app = process.env.app;
+const appJson = require('../package.json');
+const { app } = appJson;
 
 module.exports = {
   mode: 'production',
@@ -8,7 +8,7 @@ module.exports = {
   output: {
     publicPath: '/',
     path: path.join(__dirname, `../public/${app}`),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
   module: {
     rules: [
@@ -26,12 +26,14 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        use: [{
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+            },
           },
-        }],
+        ],
       },
     ],
   },

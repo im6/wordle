@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "app": "snake",
   "scripts": {
-    "start": "app=polling webpack-dev-server --progress --color --config webpack/development.js",
-    "build": "app=snake webpack --config webpack/production.js"
+    "start": "webpack-dev-server --progress --color --config webpack/development.js",
+    "build": "webpack --config webpack/production.js"
   },
   "repository": "git+https://github.com/zj1926/rxjs_practice.git",
   "author": "im6 <ee2win@gmail.com>",
