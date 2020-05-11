@@ -1,5 +1,5 @@
 {
-  "name": "rxjs_practice",
+  "name": "rxjs-practice",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,19 +8,19 @@
     "start": "webpack-dev-server --progress --color --config webpack/development.js",
     "build": "webpack --config webpack/production.js"
   },
-  "repository": "git+https://github.com/zj1926/rxjs_practice.git",
-  "author": "im6 <ee2win@gmail.com>",
+  "repository": "git+https://github.com/im6/rxjs-practice.git",
+  "author": "im6",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/zj1926/rxjs_practice/issues"
+    "url": "https://github.com/im6/rxjs-practice/issues"
   },
-  "homepage": "https://github.com/zj1926/rxjs_practice#readme",
+  "homepage": "https://github.com/im6/rxjs-practice#readme",
   "devDependencies": {
     "@babel/core": "^7.7.5",
     "@babel/preset-env": "^7.7.6",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.3.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.14.1",
     "rxjs": "^6.5.3",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.1",

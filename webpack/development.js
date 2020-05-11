@@ -35,7 +35,7 @@ module.exports = {
   },
   output: {
     publicPath: '/',
-    path: path.join(__dirname, `../public/${app}`),
+    path: path.join(__dirname, `../docs/${app}`),
     filename: 'bundle.js',
   },
   plugins: [
@@ -43,7 +43,7 @@ module.exports = {
     new webpack.NoEmitOnErrorsPlugin(),
   ],
   devServer: {
-    contentBase: `./public/${app}`, // set "public" path, relative to root
+    contentBase: `./docs/${app}`, // set "public" path, relative to root
     noInfo: true,
     hot: true,
     inline: true,
