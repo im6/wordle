@@ -1,8 +1,9 @@
 import Row from './Row';
 import { rowNum, wordLen } from '../constant';
+import { CellState } from '../typing/enum';
 
 class Game {
-  private answer: string;
+  private answer: string = 'abcde';
   private gameOver: boolean = false;
   currentRowIndex: number = 0;
   table: Row[];
@@ -14,27 +15,33 @@ class Game {
     }
   }
   public endGame() {
-    this.table.forEach((v) => {
-      v.lockRow();
-    });
     this.gameOver = true;
   }
   public handleBack() {
-    if (this.table[this.currentRowIndex].checkLock()) {
+    if (this.currentRowIndex === rowNum - 1) {
       return;
     }
     this.table[this.currentRowIndex].cells.pop();
   }
   public handleEnter() {
-    if (this.currentRowIndex >= rowNum - 1) {
-      this.gameOver = true;
-      return;
-    }
     if (this.table[this.currentRowIndex].cells.length < wordLen) {
       return;
     }
 
-    this.table[this.currentRowIndex++].lockRow();
+    this.table[this.currentRowIndex].cells.forEach((v, k) => {
+      if (this.answer[k] === v.content) {
+        v.state = CellState.Correct;
+      } else if (this.answer.includes(v.content)) {
+        v.state = CellState.WrongSpot;
+      } else {
+        v.state = CellState.Wrong;
+      }
+    });
+    if (this.currentRowIndex < rowNum - 1) {
+      this.currentRowIndex++;
+    } else {
+      this.endGame();
+    }
   }
   public handleAddNewChar(newChar: string) {
     this.table[this.currentRowIndex].appendLetter(newChar);

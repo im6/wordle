@@ -3,7 +3,6 @@ import { wordLen } from '../constant';
 
 class Row {
   cells: Cell[];
-  private isLocked: boolean;
 
   constructor() {
     this.cells = [];
@@ -11,14 +10,9 @@ class Row {
   public get value() {
     return this.cells.map((v) => v.content).join('');
   }
-  public lockRow() {
-    this.isLocked = true;
-  }
-  public checkLock(): boolean {
-    return this.isLocked;
-  }
+
   public appendLetter(newLetter: string): boolean {
-    if (this.cells.length >= wordLen || this.isLocked) {
+    if (this.cells.length >= wordLen) {
       return true;
     }
     this.cells.push(new Cell(newLetter));
