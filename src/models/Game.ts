@@ -1,5 +1,5 @@
 import Row from './Row';
-import { rowNum } from '../constant';
+import { rowNum, wordLen } from '../constant';
 
 class Game {
   private answer: string;
@@ -13,20 +13,31 @@ class Game {
       this.table.push(new Row());
     }
   }
-  endGame() {
+  public endGame() {
     this.table.forEach((v) => {
       v.lockRow();
     });
     this.gameOver = true;
   }
-  nextRow() {
+  public handleBack() {
+    if (this.table[this.currentRowIndex].checkLock()) {
+      return;
+    }
+    this.table[this.currentRowIndex].cells.pop();
+  }
+  public handleEnter() {
     if (this.currentRowIndex >= rowNum - 1) {
       this.gameOver = true;
       return;
     }
-    this.table[this.currentRowIndex].lockRow();
+    if (this.table[this.currentRowIndex].cells.length < wordLen) {
+      return;
+    }
 
-    this.currentRowIndex += 1;
+    this.table[this.currentRowIndex++].lockRow();
+  }
+  public handleAddNewChar(newChar: string) {
+    this.table[this.currentRowIndex].appendLetter(newChar);
   }
 }
 

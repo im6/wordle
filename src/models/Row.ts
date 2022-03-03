@@ -14,15 +14,15 @@ class Row {
   public lockRow() {
     this.isLocked = true;
   }
+  public checkLock(): boolean {
+    return this.isLocked;
+  }
   public appendLetter(newLetter: string): boolean {
     if (this.cells.length >= wordLen || this.isLocked) {
       return true;
     }
     this.cells.push(new Cell(newLetter));
     return false;
-  }
-  public removeLetter() {
-    this.cells.pop();
   }
 }
 

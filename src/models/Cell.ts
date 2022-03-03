@@ -1,4 +1,4 @@
-import { CellState } from '../typing';
+import { CellState } from '../typing/enum';
 
 class Cell {
   content: string;

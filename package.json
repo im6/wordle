@@ -1,22 +1,19 @@
 {
-  "name": "rxjs-practice",
+  "name": "wordle",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "app": "snake",
   "scripts": {
     "start": "webpack serve --config webpack/dev.js",
     "lint": "eslint . --ext .ts",
     "test": "jest --collectCoverage",
     "build": "webpack --config webpack/build.js"
   },
-  "repository": "git+https://github.com/im6/rxjs-practice.git",
+  "repository": "git+https://github.com/im6/wordle.git",
   "author": "im6",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/im6/rxjs-practice/issues"
+    "url": "https://github.com/im6/wordle/issues"
   },
-  "homepage": "https://github.com/im6/rxjs-practice#readme",
+  "homepage": "https://github.com/im6/wordle#readme",
   "dependencies": {
     "@types/jest": "^27.4.1",
     "@typescript-eslint/eslint-plugin": "^5.12.1",
