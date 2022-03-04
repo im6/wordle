@@ -1,8 +1,8 @@
 import './style.less';
 import { fromEvent } from 'rxjs';
 import { map, scan, startWith, filter } from 'rxjs/operators';
-import Game from './models/Game';
 import { decideTable, render } from './helper';
+import { Game } from './typing/interface';
 
 const appDom = document.getElementById('app');
 
@@ -14,7 +14,15 @@ const key$ = fromEvent(document, 'keydown').pipe(
   filter(allowEngChar)
 );
 
-const game$ = key$.pipe(startWith(new Game('hello')), scan(decideTable));
+const state: Game = {
+  rows: [''],
+  state: [],
+  answer: 'hello',
+  rowIndex: 0,
+  gameOver: false,
+};
+
+const game$ = key$.pipe(startWith(state), scan(decideTable));
 
 game$.subscribe((a: Game) => {
   render(appDom, a);
