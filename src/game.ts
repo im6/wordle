@@ -1,11 +1,11 @@
-import { wordLen } from './constant';
+import { rowNum, wordLen } from './constant';
 import { CellState } from './typing/interface';
-import allWords from './words';
+import { isValidWord, getRandomWord } from './words';
 
 class Game {
   private _answer: string;
-  private _gameOver: boolean;
-  currentIndex: number = 0;
+  gameOverMessage: string;
+  currentIndex = 0;
   data: string[];
   state: CellState[][];
   private _calculateState = (word: string): CellState[] => {
@@ -21,16 +21,10 @@ class Game {
     return res;
   };
 
-  constructor(answer: string) {
-    this._answer = answer;
+  constructor() {
+    this._answer = getRandomWord();
     this.data = [''];
     this.state = [];
-  }
-  public get gameOver(): boolean {
-    return this._gameOver;
-  }
-  public endGame() {
-    this._gameOver = true;
   }
   public handleBack() {
     const currentWord = this.data[this.currentIndex];
@@ -40,11 +34,12 @@ class Game {
   }
   public handleEnter() {
     const currentWord = this.data[this.currentIndex];
-    if (currentWord.length === wordLen && allWords.has(currentWord)) {
+    if (currentWord.length === wordLen && isValidWord(currentWord)) {
       const thisState = this._calculateState(currentWord);
       this.state.push(thisState);
-      if (currentWord === this._answer) {
-        this._gameOver = true;
+      if (currentWord === this._answer || this.currentIndex === rowNum - 1) {
+        this.gameOverMessage =
+          currentWord === this._answer ? 'Success, Congrat' : this._answer;
       }
       this.currentIndex += 1;
       this.data.push('');

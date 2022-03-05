@@ -1,9 +1,8 @@
 import './style.less';
 import { fromEvent } from 'rxjs';
 import { map, scan, startWith, filter } from 'rxjs/operators';
-import { render } from './view';
 import Game from './game';
-import { rowNum } from './constant';
+import { render } from './view';
 
 const appDom = document.getElementById('app');
 
@@ -16,9 +15,9 @@ const key$ = fromEvent(document, 'keydown').pipe(
 );
 
 const game$ = key$.pipe(
-  startWith(new Game('hello')),
+  startWith(new Game()),
   scan((g: Game, newKey: string) => {
-    if (g.currentIndex >= rowNum) {
+    if (g.gameOverMessage) {
       return g;
     }
     if (newKey === 'enter') {
@@ -32,10 +31,10 @@ const game$ = key$.pipe(
   })
 );
 
-game$.subscribe((a: Game) => {
-  console.log(a);
-  if (a.gameOver) {
-    console.log('game over');
-  }
+const subscription = game$.subscribe((a: Game) => {
   render(appDom, a);
+  if (a.gameOverMessage) {
+    alert(a.gameOverMessage);
+    subscription.unsubscribe();
+  }
 });
