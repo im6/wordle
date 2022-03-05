@@ -49,17 +49,18 @@ const drawCurrentRow = (rootDom: HTMLElement, model: Game) => {
 };
 
 export const render = (rootDom: HTMLElement, model: Game) => {
-  if (model.currentIndex > 1) {
+  if (model.gameOverMessage) {
+    drawOneRowState(
+      rootDom,
+      model.state[model.currentIndex],
+      model.currentIndex
+    );
+  } else if (model.data[model.currentIndex] === '' && model.currentIndex > 0) {
     drawOneRowState(
       rootDom,
       model.state[model.currentIndex - 1],
       model.currentIndex - 1
     );
-  } else if (model.state.length > 0) {
-    drawOneRowState(rootDom, model.state[0], 0);
   }
-
-  if (model.currentIndex < rowNum) {
-    drawCurrentRow(rootDom, model);
-  }
+  drawCurrentRow(rootDom, model);
 };

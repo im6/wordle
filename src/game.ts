@@ -42,9 +42,10 @@ class Game {
       if (currentWord === this._answer || this.currentIndex === rowNum - 1) {
         this.gameOverMessage =
           currentWord === this._answer ? successMsg : this._answer;
+      } else {
+        this.currentIndex += 1;
+        this.data.push('');
       }
-      this.currentIndex += 1;
-      this.data.push('');
     }
   }
   public handleAdd(newChar: string) {
