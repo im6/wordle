@@ -2,6 +2,8 @@ import { rowNum, wordLen } from './constant';
 import { CellState } from './typing/interface';
 import { isValidWord, getRandomWord } from './words';
 
+const successMsg = 'Success, Congrat';
+
 class Game {
   private _answer: string;
   gameOverMessage: string;
@@ -39,7 +41,7 @@ class Game {
       this.state.push(thisState);
       if (currentWord === this._answer || this.currentIndex === rowNum - 1) {
         this.gameOverMessage =
-          currentWord === this._answer ? 'Success, Congrat' : this._answer;
+          currentWord === this._answer ? successMsg : this._answer;
       }
       this.currentIndex += 1;
       this.data.push('');
