@@ -34,7 +34,9 @@ const game$ = key$.pipe(
 const subscription = game$.subscribe((a: Game) => {
   render(appDom, a);
   if (a.gameOverMessage) {
-    alert(a.gameOverMessage);
-    subscription.unsubscribe();
+    setTimeout(() => {
+      alert(a.gameOverMessage);
+      subscription.unsubscribe();
+    });
   }
 });
