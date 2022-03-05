@@ -5,12 +5,4 @@ enum CellState {
   Undecided,
 }
 
-interface Game {
-  rows: string[];
-  state: CellState[][];
-  answer: string;
-  rowIndex: number;
-  gameOver: boolean;
-}
-
-export { CellState, Game };
+export { CellState };
