@@ -28,6 +28,11 @@ describe('game utility tests', () => {
     game.handleAdd('a');
     game.handleAdd('p');
     game.handleAdd('p');
+    game.handleAdd('p');
+    game.handleAdd('p');
+    game.handleEnter();
+    game.handleBack();
+    game.handleBack();
     game.handleAdd('l');
     game.handleAdd('e');
     game.handleEnter();
@@ -49,10 +54,10 @@ describe('game utility tests', () => {
     game.handleAdd('l');
     game.handleAdd('e');
     game.handleEnter();
+    game.handleAdd('o');
+    game.handleAdd('v');
     game.handleAdd('a');
-    game.handleAdd('p');
-    game.handleAdd('p');
-    game.handleAdd('l');
+    game.handleAdd('t');
     game.handleAdd('e');
     game.handleEnter();
     expect(game.gameOverMessage).toBeDefined();

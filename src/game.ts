@@ -7,6 +7,7 @@ const successMsg = 'Success, Congrat';
 class Game {
   private _answer: string;
   gameOverMessage: string;
+  gameErrorMessage: string;
   currentIndex = 0;
   data: string[];
   state: CellState[][];
@@ -30,22 +31,32 @@ class Game {
   }
   public handleBack() {
     const currentWord = this.data[this.currentIndex];
+    if (this.gameErrorMessage) {
+      this.gameErrorMessage = null;
+    }
     if (currentWord.length > 0) {
       this.data[this.currentIndex] = currentWord.slice(0, -1);
     }
   }
   public handleEnter() {
     const currentWord = this.data[this.currentIndex];
-    if (currentWord.length === wordLen && isValidWord(currentWord)) {
-      const thisState = this._calculateState(currentWord);
-      this.state.push(thisState);
-      if (currentWord === this._answer || this.currentIndex === rowNum - 1) {
-        this.gameOverMessage =
-          currentWord === this._answer ? successMsg : this._answer;
+    if (currentWord.length === wordLen) {
+      if (isValidWord(currentWord)) {
+        const thisState = this._calculateState(currentWord);
+        this.state.push(thisState);
+        if (currentWord === this._answer || this.currentIndex === rowNum - 1) {
+          this.gameOverMessage =
+            currentWord === this._answer ? successMsg : this._answer;
+        } else {
+          this.currentIndex += 1;
+          this.data.push('');
+        }
+        this.gameErrorMessage = null;
       } else {
-        this.currentIndex += 1;
-        this.data.push('');
+        this.gameErrorMessage = 'This is not a valid word';
       }
+    } else {
+      // todo: some shaking effect
     }
   }
   public handleAdd(newChar: string) {
