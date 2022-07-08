@@ -11,7 +11,7 @@ const subscription = game$.subscribe((a: Game) => {
   errDom.innerText = a.gameErrorMessage || '';
   if (a.gameOverMessage) {
     setTimeout(() => {
-      alert(a.gameOverMessage);
+      alert(a.gameOverMessage.toUpperCase());
       subscription.unsubscribe();
     });
   }
