@@ -1,6 +1,6 @@
 import './style.less';
 import Game from './game';
-import { game$ } from './observables';
+import { startGame$ } from './observables';
 import { render } from './view';
 import { confetti } from 'dom-confetti';
 
@@ -8,7 +8,7 @@ const appDom = document.getElementById('app');
 const errDom = document.getElementById('err');
 const duration = 2500;
 
-const subscription = game$.subscribe((a: Game) => {
+const subscription = startGame$().subscribe((a: Game) => {
   render(appDom, a);
   errDom.innerText = a.gameErrorMessage || '';
   if (a.gameOverMessage) {
