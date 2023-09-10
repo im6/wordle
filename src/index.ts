@@ -1,27 +1,26 @@
 import './style.less';
-import Game from './game';
+import { Game, GameStatus } from './typing/interface';
 import { startGame$ } from './observables';
 import { render } from './view';
 import { confetti } from 'dom-confetti';
+import { confettiDuration } from './constant';
 
 const appDom = document.getElementById('app');
-const errDom = document.getElementById('err');
-const duration = 2500;
+const redTextDom = document.getElementById('redText');
+const greenTextDom = document.getElementById('greenText');
 
 const subscription = startGame$().subscribe((a: Game) => {
   render(appDom, a);
-  errDom.innerText = a.gameErrorMessage || '';
-  if (a.gameOverMessage) {
+  redTextDom.innerText =
+    a.gameStatus === GameStatus.Error ? 'This is not a valid word' : '';
+  if (a.gameStatus === GameStatus.Success) {
     subscription.unsubscribe();
-    if (a.gameOverMessage.indexOf('Success') > -1) {
-      confetti(appDom, {
-        duration,
-      });
-      setTimeout(() => {
-        alert(a.gameOverMessage.toUpperCase());
-      }, duration);
-    } else {
-      alert(a.gameOverMessage.toUpperCase());
-    }
+    greenTextDom.innerText = a.bottomMessage;
+    confetti(appDom, {
+      duration: confettiDuration,
+    });
+  } else if (a.gameStatus === GameStatus.Fail) {
+    subscription.unsubscribe();
+    redTextDom.innerText = a.bottomMessage;
   }
 });

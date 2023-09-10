@@ -1,26 +1,19 @@
 import { fromEvent } from 'rxjs';
-import { map, scan, startWith, filter } from 'rxjs/operators';
-import Game from './game';
-
-const allowEngChar = (v: string) =>
-  v === 'enter' || v === 'backspace' || /^[a-z]$/.test(v);
+import { map, scan, filter } from 'rxjs/operators';
+import createReducer from './reducer';
+import { allowEngChar } from './helper';
+import { wordClosure } from './helper';
+import { GameStatus } from './typing/interface';
 
 export const startGame$ = () =>
   fromEvent(document, 'keydown').pipe(
     map((v: KeyboardEvent) => v.key.toLowerCase()),
     filter(allowEngChar),
-    startWith(new Game()),
-    scan((g: Game, newKey: string) => {
-      if (g.gameOverMessage) {
-        return g;
-      }
-      if (newKey === 'enter') {
-        g.handleEnter();
-      } else if (newKey === 'backspace') {
-        g.handleBack();
-      } else {
-        g.handleAdd(newKey);
-      }
-      return g;
+    scan(createReducer(wordClosure()), {
+      currentIndex: 0,
+      data: [''],
+      state: [],
+      gameStatus: GameStatus.Pending,
+      bottomMessage: null,
     })
   );

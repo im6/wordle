@@ -1,7 +1,7 @@
 import style from './style.less';
-import { CellState } from './typing/interface';
+import { CellState, GameStatus } from './typing/interface';
 import { rowNum } from './constant';
-import Game from './game';
+import { Game } from './typing/interface';
 
 const drawOneRowState = (
   rootDom: HTMLElement,
@@ -49,7 +49,10 @@ const drawCurrentRow = (rootDom: HTMLElement, model: Game) => {
 };
 
 export const render = (rootDom: HTMLElement, model: Game) => {
-  if (model.gameOverMessage) {
+  if (
+    model.gameStatus === GameStatus.Success ||
+    model.gameStatus === GameStatus.Fail
+  ) {
     drawOneRowState(
       rootDom,
       model.state[model.currentIndex],
