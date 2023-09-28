@@ -39,11 +39,15 @@ const createReducer =
           return {
             ...g,
             gameStatus: GameStatus.Error,
+            bottomMessage: 'Not in word list',
           };
         }
       } else {
-        // todo: some shake effect
-        return g;
+        return {
+          ...g,
+          gameStatus: GameStatus.Error,
+          bottomMessage: 'Not eonugh letters',
+        };
       }
     } else if (newKey === 'backspace') {
       if (currentWord.length > 0) {
@@ -55,7 +59,10 @@ const createReducer =
           gameStatus: GameStatus.Pending,
         };
       } else {
-        return g;
+        return {
+          ...g,
+          gameStatus: GameStatus.Pending,
+        };
       }
     } else {
       if (currentWord.length < wordLen) {
@@ -64,6 +71,7 @@ const createReducer =
         return {
           ...g,
           data: newData,
+          gameStatus: GameStatus.Pending,
         };
       } else {
         return g;

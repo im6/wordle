@@ -27,3 +27,21 @@ export const wordClosure = () => {
       }),
   };
 };
+
+export const getShakeFrame = (full: number) => {
+  let amplitude = full;
+  const frames = [];
+  while (amplitude > 1) {
+    frames.push({
+      value: amplitude,
+    });
+    frames.push({
+      value: -amplitude,
+    });
+    amplitude /= 2;
+  }
+  frames.push({
+    value: 0,
+  });
+  return frames;
+};

@@ -1,4 +1,9 @@
-import { isValidWord, wordClosure, allowEngChar } from './helper';
+import {
+  isValidWord,
+  wordClosure,
+  allowEngChar,
+  getShakeFrame,
+} from './helper';
 
 describe('helpers', () => {
   test('isValidWord', () => {
@@ -11,5 +16,8 @@ describe('helpers', () => {
   });
   test('allowEngChar', () => {
     expect(allowEngChar('123')).toBe(false);
+  });
+  test('getShakeFrame', () => {
+    expect(getShakeFrame(8)).toHaveLength(7);
   });
 });
