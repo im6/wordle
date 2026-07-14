@@ -1,4 +1,4 @@
-import './style.less';
+import './style.module.less';
 import anime from 'animejs/lib/anime.es.js';
 import { Game, GameStatus } from './typing/interface';
 import { startGame$ } from './observables';

@@ -1,4 +1,4 @@
-import style from './style.less';
+import style from './style.module.less';
 import { CellState, GameStatus } from './typing/interface';
 import { rowNum } from './constant';
 import { Game } from './typing/interface';
